@@ -1,5 +1,8 @@
 /out/*
 /.idea/*
 project-one.zip
-/project-two/gym
-/project-two/.idea/*
+
+Would skip repository project-two/gym
+project-two/.DS_Store
+project-two/.idea
+project-two/gym
