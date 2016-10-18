@@ -11,22 +11,30 @@ epsilon = 0.1
 
 numberOfEpisodes = 3000
 
+
+def sarsa(state):
+    randomNumber = random.random()
+    if (randomNumber < epsilon):
+        action = environment.action_space.sample()
+    else:
+        action = numpy.argmax(qMatrix[state, :])
+    return action
+
+
 for x in range(numberOfEpisodes):
     observation = environment.reset()
     done = False
     episodeReward = 0
+    action2 = 0
     while not done:
         state = observation
-        randomNumber = random.random()
-        if(randomNumber < epsilon):
-            action = environment.action_space.sample()
-        else:
-            action = numpy.argmax(qMatrix[state, :])
+        if(x == 0):
+            action = sarsa(state)
+        else: action = action2
         observation, reward, done, info = environment.step(action)
-        qMatrix[state, action] = qMatrix[state, action] + 0.1*(reward + 0.99 * numpy.argmax(qMatrix[observation, :]) - qMatrix[state, action])
+        action2 = sarsa(observation)
+        qMatrix[state, action] = qMatrix[state, action] + 0.1*(reward + 0.99 * (qMatrix[observation, action2]) - qMatrix[state, action])
         episodeReward += reward
-        #environment.render()
-        #print qMatrix[state, action], reward, 0.99 * numpy.argmax(qMatrix[observation, :])
     if(x > 1000):
         epsilon *= 0.999
     print qMatrix, x, epsilon
@@ -36,7 +44,6 @@ for x in range(1000):
     done = False
     observation = environment.reset()
     while not done:
-        #environment.render()
         state = observation
         action = numpy.argmax(qMatrix[state, :])
         observation, reward, done, info = environment.step(action)
@@ -44,5 +51,8 @@ for x in range(1000):
             numberOfWins += 1
             environment.render()
 print numberOfWins
+
+
+
 
 

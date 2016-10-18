@@ -25,18 +25,14 @@ for x in range(numberOfEpisodes):
         observation, reward, done, info = environment.step(action)
         qMatrix[state, action] = qMatrix[state, action] + 0.1*(reward + 0.99 * numpy.max(qMatrix[observation, :]) - qMatrix[state, action])
         episodeReward += reward
-        #environment.render()
-        #print qMatrix[state, action], reward, 0.99 * numpy.argmax(qMatrix[observation, :])
     if(x > 1000):
         epsilon *= 0.999
     print qMatrix, x, epsilon
-environment.render()
 numberOfWins = 0
 for x in range(1000):
     done = False
     observation = environment.reset()
     while not done:
-        #environment.render()
         state = observation
         action = numpy.argmax(qMatrix[state, :])
         observation, reward, done, info = environment.step(action)
