@@ -1,0 +1,10 @@
+import gym
+env = gym.make('FrozenLake-v0')
+print(env.action_space.n)
+#> Discrete(2)
+print(env.observation_space)
+#> Box(4,)
+print(env.observation_space.n)
+#> array([ 2.4       ,         inf,  0.20943951,         inf])
+print(env.observation_space)
+#> array([-2.4       ,        -inf, -0.20943951,        -inf])
