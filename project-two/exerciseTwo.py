@@ -3,7 +3,7 @@ import numpy
 import random
 
 environment = gym.make('FrozenLake-v0')
-fixedQFunctionForPartB = [0.5, 1, 0.5, 0.5]
+fixedQFunctionForPartBandC = [0.5, 1, 0.5, 0.5]
 
 
 def exerciseTwoPartA():
@@ -30,7 +30,7 @@ def fixedQFunctionForPartA():
 def exerciseTwoPartB():
     done = False
     while not done:
-        action = numpy.argmax(fixedQFunctionForPartB[:])
+        action = numpy.argmax(fixedQFunctionForPartBandC[:])
         observation, reward, done, info = environment.step(action)
         environment.render()
 
@@ -43,7 +43,7 @@ def exerciseTwoPartC():
         if(randomNumber < epsilon):
             action = environment.action_space.sample()
         else:
-            action = numpy.argmax(fixedQFunctionForPartB[:])
+            action = numpy.argmax(fixedQFunctionForPartBandC[:])
         observation, reward, done, info = environment.step(action)
         print observation
         environment.render()

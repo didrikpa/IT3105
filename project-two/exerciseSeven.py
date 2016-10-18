@@ -3,7 +3,10 @@ import numpy
 import random
 import matplotlib.pyplot as plt
 
+
+
 environment = gym.make('Taxi-v1')
+environment.monitor.start('/tmp/ta')
 qMatrix = numpy.zeros((environment.observation_space.n, environment.action_space.n))
 qMatrix[qMatrix == 0] = 1
 epsilon = 0.1
@@ -32,6 +35,10 @@ for x in range(numberOfEpisodes):
         #print episodeReward
     rewards[x] = episodeReward
     epsilon *= 0.85
+environment.monitor.close()
+gym.upload('/tmp/ta', api_key='sk_EDzsZgtTk64VfuNX4KbLQ')
+
+
 
 plt.plot(rewards)
 plt.ylabel('Rewards')

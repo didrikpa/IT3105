@@ -7,8 +7,6 @@ qMatrix = numpy.zeros((environment.observation_space.n, environment.action_space
 qMatrix[qMatrix == 0] = 0.32
 epsilon = 0.1
 
-
-
 numberOfEpisodes = 3000
 
 
@@ -28,14 +26,15 @@ for x in range(numberOfEpisodes):
     action2 = 0
     while not done:
         state = observation
-        if(x == 0):
+        if (x == 0):
             action = sarsa(state)
-        else: action = action2
+        else:
+            action = action2
         observation, reward, done, info = environment.step(action)
         action2 = sarsa(observation)
-        qMatrix[state, action] = qMatrix[state, action] + 0.1*(reward + 0.99 * (qMatrix[observation, action2]) - qMatrix[state, action])
+        qMatrix[state, action] += 0.1 * (reward + 0.99 * (qMatrix[observation, action2]) - qMatrix[state, action])
         episodeReward += reward
-    if(x > 1000):
+    if x > 1000:
         epsilon *= 0.999
     print qMatrix, x, epsilon
 environment.render()
@@ -47,12 +46,7 @@ for x in range(1000):
         state = observation
         action = numpy.argmax(qMatrix[state, :])
         observation, reward, done, info = environment.step(action)
-        if(observation == 15):
+        if (observation == 15):
             numberOfWins += 1
             environment.render()
 print numberOfWins
-
-
-
-
-

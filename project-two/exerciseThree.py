@@ -3,6 +3,7 @@ import numpy
 import random
 
 environment = gym.make('FrozenLake-v0')
+environment.monitor.start('/tmp/three')
 qMatrix = numpy.zeros((environment.observation_space.n, environment.action_space.n))
 qMatrix[qMatrix == 0] = 0.32
 epsilon = 0.1
@@ -18,16 +19,16 @@ for x in range(numberOfEpisodes):
     while not done:
         state = observation
         randomNumber = random.random()
-        if(randomNumber < epsilon):
+        if randomNumber < epsilon:
             action = environment.action_space.sample()
         else:
             action = numpy.argmax(qMatrix[state, :])
         observation, reward, done, info = environment.step(action)
-        qMatrix[state, action] = qMatrix[state, action] + 0.1*(reward + 0.99 * numpy.max(qMatrix[observation, :]) - qMatrix[state, action])
+        qMatrix[state, action] += 0.1 * (reward + 0.99 * numpy.max(qMatrix[observation, :]) - qMatrix[state, action])
         episodeReward += reward
-    if(x > 1000):
+    if x > 1000:
         epsilon *= 0.999
-    print qMatrix, x, epsilon
+    #print qMatrix, x, epsilon
 numberOfWins = 0
 for x in range(1000):
     done = False
@@ -40,5 +41,7 @@ for x in range(1000):
             numberOfWins += 1
             environment.render()
 print numberOfWins
+environment.monitor.close()
+gym.upload('/tmp/three', api_key='sk_EDzsZgtTk64VfuNX4KbLQ')
 
 
