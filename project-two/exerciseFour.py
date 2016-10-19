@@ -36,8 +36,8 @@ for x in range(numberOfEpisodes):
         episodeReward += reward
     if x > 1000:
         epsilon *= 0.999
-    print qMatrix, x, epsilon
-environment.render()
+print qMatrix
+
 numberOfWins = 0
 for x in range(1000):
     done = False

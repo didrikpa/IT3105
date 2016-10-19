@@ -25,3 +25,4 @@ def exerciseOneTaxi():
         observation, reward, done, info = environment.step(action)
         environment.render()
 
+
