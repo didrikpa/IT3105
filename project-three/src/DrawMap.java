@@ -10,12 +10,12 @@ import java.util.ArrayList;
 class DrawMap {
 
     void drawScatterMap(ArrayList<Vector> stateOfCities, ArrayList<Vector> neurons) {
-        XYChart chart = new XYChartBuilder().width(5000).height(5000).title("TSP").xAxisTitle("X").yAxisTitle("Y").build();
+        XYChart chart = new XYChartBuilder().width(500).height(500).title("TSP").xAxisTitle("X").yAxisTitle("Y").build();
 
         chart.getStyler().setDefaultSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Line);
         chart.getStyler().setChartTitleVisible(false);
         chart.getStyler().setLegendPosition(Styler.LegendPosition.InsideSW);
-        chart.getStyler().setMarkerSize(16);
+        chart.getStyler().setMarkerSize(8);
 
         ArrayList<Double> xValuesInNeurons = new ArrayList<>();
         ArrayList<Double> yValuesInNeurons = new ArrayList<>();

@@ -7,13 +7,13 @@ import java.util.Collections;
 public class SOM {
 
     private static String map1 = "/Users/didrikpa/IdeaProjects/it3105/project-three/maps/western_sahara.txt";
-    private static String map2 = "/Users/didrikpa/IdeaProjects/it3105/project-three/maps/uruguay.txt";
+    private static String map2 = "/Users/didrikpa/IdeaProjects/it3105/project-three/maps/djibouti.txt";
     private static String map3 = "/Users/didrikpa/IdeaProjects/it3105/project-three/maps/qatar.txt";
-    private static String map4 = "/Users/didrikpa/IdeaProjects/it3105/project-three/maps/djibouti.txt";
+    private static String map4 = "/Users/didrikpa/IdeaProjects/it3105/project-three/maps/uruguay.txt";
 
     private int delta = 100000;
-    private double radius = 26.0;
-    private double learningRate = 0.7;
+    private double radius = 19;
+    private double learningRate = 0.65;
 
     private double minX;
     private double maxX;
@@ -26,7 +26,7 @@ public class SOM {
 
     public SOM(String filePath) throws IOException {
         this.cities = readMapFile(filePath);
-        int numberOfNeurons = (int) Math.floor(cities.size()*3);
+        int numberOfNeurons = (int) Math.floor(cities.size()*12);
         neurons = new ArrayList<>();
         for (int i = 0; i < numberOfNeurons; i++) {
             this.neurons.add(new Vector(Math.random(), Math.random()));
@@ -49,7 +49,7 @@ public class SOM {
     private double alpha(int stage, String decayRate) {
         double learningRate = this.learningRate;
         if (decayRate.equals("linear")) {
-            learningRate *= 0.7;
+            learningRate *= 0.9999;
         } else if (decayRate.equals("exponential")) {
             learningRate = this.learningRate * Math.pow(Math.E, -0.001 * stage);
         }
@@ -60,9 +60,9 @@ public class SOM {
     private double theta(int indexOfBestMatching, int indexOfCurrent, int stage, String decayRate) {
         double radius = this.radius;
         if (decayRate.equals("linear")) {
-            radius *= 0.7;
+            radius *= 0.99999;
         } else if (decayRate.equals("exponential")) {
-            radius = this.radius * Math.pow(Math.E, -0.01 * stage);
+            radius = this.radius * Math.pow(Math.E, -0.0023 * stage);
         }
         double numb = Math.abs(indexOfCurrent - indexOfBestMatching);
         if (neurons.size() - numb < numb) {
@@ -135,6 +135,9 @@ public class SOM {
         DrawMap drawMap = new DrawMap();
         drawMap.drawScatterMap(cities, neurons);
         for (int i = 0; i < delta; i++) {
+            if (i == delta/2){
+                drawMap.drawScatterMap(cities, neurons);
+            }
             double bestNeuron = 1000;
             int bestNeuronIndex = 0;
             int cityIndex = (int) Math.floor(Math.random() * cities.size());
@@ -146,7 +149,7 @@ public class SOM {
                 }
             }
             for (int l = 0; l < neurons.size(); l++) {
-                updateWeights(neurons.get(l), alpha(i, "exponential"), theta(bestNeuronIndex, l, i, "exponential"), cities.get(cityIndex));
+                updateWeights(neurons.get(l), alpha(i, "exponetial"), theta(bestNeuronIndex, l, i, "exponental"), cities.get(cityIndex));
             }
         }
         double distance = calculateDistance();
@@ -155,7 +158,7 @@ public class SOM {
     }
 
     public static void main(String[] args) throws IOException {
-        SOM som = new SOM(map1);
+        SOM som = new SOM(map4);
         som.runAlgorithm();
     }
 }
